@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 03 Simple Calculator</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+  </head>
+
+  <body>
+    <h1>Task 03 Simple Calculator</h1>
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Get the element objects by id for input textbox, add button, minus
+        button, divide buttin, multiply buttons and results<br />
+        <code>Ids used: input-number, btn-add, btn-subtract, btn-multiply,
+          btn-divide, current-calculation and current-result</code>
+      </li>
+      <li>
+        Write a function which will receive two params to display previous
+        value, button clicked and current value
+      </li>
+      <li>
+        Put an autoficus on the input textbox. Right click and inspect element to see the <code>autofocus</code> attribute applied to the textbox. 
+      </li>
+      <li>
+        Add event listener to do Add, Divide, Multiply, and Minus operation.
+        After each operation put the focus back in the text box.
+      </li>
+    </ul>
+
+    <h2>The Simple Calculator</h2>
+    <section id="calculator">
+      <input type="number" id="input-number" autofocus />
+      <div id="calc-actions">
+        <button type="button" id="btn-add">+</button>
+        <button type="button" id="btn-subtract">-</button>
+        <button type="button" id="btn-multiply">*</button>
+        <button type="button" id="btn-divide">/</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+
+    <h2>JavaScript Solution</h2>
+
+    <code>
+            //#1: Get the element objects by id for input textbox, add button, minus button, divide buttin, multiply buttons and results </br>
+            const usrInput = document.getElementById('input-number');</br>
+            const addBtn = document.getElementById('btn-add');</br>
+            const subtractBtn = document.getElementById('btn-subtract');</br>
+            const multiplyBtn = document.getElementById('btn-multiply');</br>
+            const divideBtn = document.getElementById('btn-divide');</br></br>
+            
+            const currentResultOutput = document.getElementById('current-result');</br>
+            const currentCalculationOutput = document.getElementById('current-calculation');</br></br>
+            
+            //#2. Display previous value, button clicked and current value</br>
+            function outputResult(result, text) {</br>
+              currentResultOutput.textContent = result;</br>
+              currentCalculationOutput.textContent = text;</br>
+            }</br></br>
+            
+            //#4.A. Code to perform the operation</br>
+            const defaultResult = 0;</br>
+            let currentResult = defaultResult;</br></br>
+            
+            //helper function to get the userinput value using the object created in #1 above</br>
+            function getUserNumberInput() {</br>
+              return parseInt(usrInput.value);</br>
+            }</br></br>
+            
+            //another hepler function to call the main outputResult function in #1 above</br>
+            function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {</br>
+              const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;</br>
+              outputResult(currentResult, calcDescription);</br></br>
+              
+              //put the focus back in the inputbox</br>
+              usrInput.focus();</br>
+            }</br></br>
+            
+            //individual operations</br>
+            function add() {</br>
+              const enteredNumber = getUserNumberInput();</br>
+              const initialResult = currentResult;</br>
+              currentResult = currentResult + enteredNumber;</br>
+              createAndWriteOutput('+', initialResult, enteredNumber);</br>
+            }</br></br>
+            
+            function subtract() {</br>
+              const enteredNumber = getUserNumberInput();</br>
+              const initialResult = currentResult;</br>
+              currentResult = currentResult - enteredNumber;</br>
+              createAndWriteOutput('-', initialResult, enteredNumber);</br>
+            }</br></br>
+            
+            function multiply() {</br>
+              const enteredNumber = getUserNumberInput();</br>
+              const initialResult = currentResult;</br>
+              currentResult = currentResult * enteredNumber;</br>
+              createAndWriteOutput('*', initialResult, enteredNumber);</br>
+            }</br></br>
+            
+            function divide() {</br>
+              const enteredNumber = getUserNumberInput();</br>
+              const initialResult = currentResult;</br>
+              currentResult = currentResult / enteredNumber;</br>
+              createAndWriteOutput('/', initialResult, enteredNumber);</br>
+            }</br></br>
+            
+            //#4.B. Event listeners on action buttons</br>
+            addBtn.addEventListener('click', add);</br>
+            subtractBtn.addEventListener('click', subtract);</br>
+            multiplyBtn.addEventListener('click', multiply);</br>
+            divideBtn.addEventListener('click', divide);
+    </code>
+
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_03_simple_calculator.js">Assets\js\js_03_calculator.js</a>
+    </p>
+
+    <script src="../Assets/js/js_03_simple_calculator.js"></script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 01 Variables, Constants, Operators & Core Data Types</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css">
+</head>
+
+<body>
+    <h1>Task 01 Variables, Constants, Operators & Core Data Types</h1>
+
+    <h2>Task</h2>
+    <ul>
+        <li>
+          Create two variables: One that holds a fictional user input (a number of
+          your choice) and one that holds no value initially (e.g. "result").
+        </li>
+        <li>
+          Set the result variable to 18 plus the value stored in user input.
+        </li>
+        <li>
+          Add three additional lines of code where you change the result variable
+          again (by subtracting a value of your choice, multiplying it and
+          dividing it).
+        </li>
+        <li>
+          Think about the value stored in the user input variable you also created
+          - did that value change?
+        </li>
+        <li>
+          <code>alert()</code> the result and the user input variables (in two
+          separate <code>alert()</code> calls).
+        </li>
+      </ul>
+
+      <h2>Solution</h2>
+      <p>JavaScript file: <a href="../Assets/js/js_01_Variables_Constants_Operators_CoreDataTypes.js">Assets\js\js_01_Variables_Constants_Operators_CoreDataTypes.js</a></p>
+      <code>
+            /*<br/>
+            Variables, Constants, Operators & Core Data Types<br/>
+            Html File: Tasks\task_01_Variables_Constants_Operators_CoreDataTypes.html<br/>
+            JS File: Assets\js\js_01_Variables_Constants_Operators_CoreDataTypes.js<br/>
+            */<br/><br/>
+            
+            //#1<br/>
+            //a fictional user input (a number of your choice)<br/>
+            const input = 30; //can use let but since it will never change, using const<br/>
+            //and one that holds no value initially<br/>
+            let result;<br/><br/>
+            
+            //#2<br/>
+            //Set the result variable to 18 plus the value stored in user input.<br/>
+            result = 18 + input;<br/><br/>
+            
+            //#3<br/>
+            //by subtracting a value of your choice, multiplying it and dividing it<br/>
+            result = result - 2;<br/>
+            result = result * 3;<br/>
+            result = result / 2;<br/><br/>
+
+            //#4</br>
+            //this doesnot affect input since we are only working on result variable<br/><br/>
+            
+            //#5<br/>
+            alert("input = " + input);<br/>
+            alert("result = " + result);
+      </code>
+
+    <script src="../Assets/js/js_01_Variables_Constants_Operators_CoreDataTypes.js"></script>
+</body>
+</html>

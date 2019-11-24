@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 02 Functions</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+  </head>
+
+  <body>
+    <h1>Task 02 Functions</h1>
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Create two new functions: One that takes no parameters and simply shows
+        an <code>alert()</code> with some text of your choice and one that
+        receives a name as a parameter and then uses <code>alert()</code> to
+        output that name.
+      </li>
+      <li>
+        Call both functions directly from your code.
+      </li>
+      <li id="task-3">
+        Add an event listener to <code>task3Element</code> and attach it to the
+        first function (the one without arguments). <span class="boldUnderlineItalics">Click this task thereafter
+        to verify whether it works</span>.
+      </li>
+      <li>
+        Add a brand-new function that takes three parameters (three strings,
+        give them any names you want) that returns one combined string (where
+        the three strings are concatenated).
+      </li>
+      <li>
+        Call that new function directly from your code and
+        <code>alert()</code> the result of that function.
+      </li>
+    </ul>
+
+    <h2>Solution</h2>
+
+    <code>
+            //#1<br/>
+            //Two functions with and without params<br/>
+            function noParams(){<br/>
+                alert("No params function alert");<br/>
+            }<br/><br/>
+            
+            function withParam(name){<br/>
+                alert("Hi " + name);<br/>
+            }<br/><br/>
+            
+            //#2<br/>
+            //calling the functions<br/>
+            noParams();<br/>
+            withParam("John");<br/><br/>
+            
+            //#3<br/>
+            //creating an event listener<br/>
+            //click #3 task and the noParams function will get called<br/>
+            //The li element is put as ==> &ltli id="task-3"><br/>
+            //we are getting the element with document.getElementById<br/>
+            const task3Element = document.getElementById('task-3');<br/>
+            task3Element.addEventListener('click', noParams);<br/><br/>
+            
+            //#4<br/>
+            //function that received 3 params and returns a concatenated string<br/>
+            function concatString(param1, param2, param3){<br/>
+                return `${param1} ${param2} ${param3}`;<br/>
+                //we can also do this as<br/>
+                return param1 + " " + param2 + " " + param3;<br/>
+            }<br/><br/>
+            
+            //#5<br/>
+            //calling the concatString function<br/>
+            var newString = concatString("John", "Smith", "Dad");<br/>
+            alert(newString);
+    </code>
+
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_02_functions.js">Assets\js\js_02_functions.js</a>
+    </p>
+    <code> </code>
+
+    <script src="../Assets/js/js_02_functions.js"></script>
+  </body>
+</html>
