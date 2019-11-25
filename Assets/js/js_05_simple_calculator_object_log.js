@@ -36,6 +36,23 @@ function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {
   usrInput.focus();
 }
 
+//Task5: create a log entry
+function createLogEntry(operation, prevNumber, number, result){
+  //create object
+  const logEntry = {
+    operation: operation,
+    prevResult: prevNumber,
+    number: number,
+    result: result
+  };
+  //push into array
+  logEntries.push(logEntry);
+  //display only the current operation and not all. .Length gives us the total length but since the array is 0 index based, we'll pick the -1 item. 
+  console.log(logEntries[logEntries.length -1]);
+  //this will display the full array
+  //console.log(logEntries);
+}
+
 //individual operations
 function add() {
   const enteredNumber = getUserNumberInput();
@@ -44,9 +61,8 @@ function add() {
   //currentResult = currentResult + enteredNumber;
   currentResult += enteredNumber;
   createAndWriteOutput('+', initialResult, enteredNumber);
-  //Task4: add the log entry
-  logEntries.push(enteredNumber);
-  console.log(logEntries);
+  //Task5: add the log entry
+  createLogEntry('ADD', initialResult, enteredNumber, currentResult);
 }
 
 function subtract() {
@@ -56,9 +72,8 @@ function subtract() {
   //currentResult = currentResult - enteredNumber;
   currentResult -= enteredNumber;
   createAndWriteOutput('-', initialResult, enteredNumber);
-  //Task4: add the log entry
-  logEntries.push(enteredNumber);
-  console.log(logEntries);
+  //Task5: add the log entry
+  createLogEntry('SUBTRACT', initialResult, enteredNumber, currentResult);
 }
 
 function multiply() {
@@ -68,9 +83,8 @@ function multiply() {
   currentResult = currentResult * enteredNumber;
   currentResult *= enteredNumber;
   createAndWriteOutput('*', initialResult, enteredNumber);
-  //Task4: add the log entry
-  logEntries.push(enteredNumber);
-  console.log(logEntries);
+  //Task5: add the log entry
+  createLogEntry('MULTIPLY', initialResult, enteredNumber, currentResult);
 }
 
 function divide() {
@@ -80,9 +94,8 @@ function divide() {
   //currentResult = currentResult / enteredNumber;
   currentResult /= enteredNumber;
   createAndWriteOutput('/', initialResult, enteredNumber);
-  //Task4: add the log entry
-  logEntries.push(enteredNumber);
-  console.log(logEntries);
+  //Task5: add the log entry
+  createLogEntry('DIVIDE', initialResult, enteredNumber, currentResult);
 }
 
 //Event listeners on action buttons

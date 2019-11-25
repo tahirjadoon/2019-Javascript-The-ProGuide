@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 05 Simple Calculator - Object Log</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+  </head>
+
+  <body>
+    <h1>Task 05 Simple Calculator - Object Log</h1>
+    <p>In this example we are still using <a href="task_04_simple_calculator_arrays.html">task 4</a> code and will introduce the object to push into log array. </p>
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Create an object that has operation, previous result, current number and current result and push it into log array. To create log, create a function and use it in all the operations. 
+      </li>
+      <li>
+        After adding, display the object array items in the console. For this press F12 in chrome to bring up the developer tools and then click the console tab.  
+      </li>
+    </ul>
+
+    <h2>The Simple Calculator</h2>
+    <section id="calculator">
+      <input type="number" id="input-number" autofocus />
+      <div id="calc-actions">
+        <button type="button" id="btn-add">+</button>
+        <button type="button" id="btn-subtract">-</button>
+        <button type="button" id="btn-multiply">*</button>
+        <button type="button" id="btn-divide">/</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+
+    <h2>JavaScript Solution</h2>
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_05_simple_calculator_object_log.js">/Assets/js/js_05_simple_calculator_object_log.js</a>
+    </p>
+    <p>Open the above JavaScript file and look at mutiple comments that start with <code>Task5</code></p>
+
+    <p>We have created a function:<br/>
+      <code>
+          //Task5: create a log entry<br/>
+          function createLogEntry(operation, prevNumber, number, result){<br/>
+            //create object<br/>
+            const logEntry = {<br/>
+              operation: operation,<br/>
+              prevResult: prevNumber,<br/>
+              number: number,<br/>
+              result: result<br/>
+            };<br/>
+            //push into array<br/>
+            logEntries.push(logEntry);<br/>
+            //display only the current operation and not all. .Length gives us the total length but since the array is 0 index based, we'll pick the -1 item.<br/>
+            console.log(logEntries[logEntries.length -1]);<br/>
+            //this will display the full array<br/>
+            //console.log(logEntries);<br/>
+          }
+      </code>
+    </p>
+    <p>
+      and then called it like: <br/>
+      <code>
+      //Task5: add the log entry <br/>
+      createLogEntry('ADD', initialResult, enteredNumber, currentResult);
+    </code>
+    </p>
+
+    <script src="../Assets/js/js_05_simple_calculator_object_log.js"></script>
+  </body>
+</html>
