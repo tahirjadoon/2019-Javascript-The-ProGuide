@@ -18,25 +18,33 @@ h1 {
 }
 
 ol {
-  counter-reset: list-counter;
+  /*counter-reset: list-counter;*/
   list-style: none;
   margin: 0;
-  padding: 1rem;
+  padding: .5rem;
   border: 1px solid #fa923f;
 }
 
 li {
-  counter-increment: list-counter;
-  padding: 1rem;
-  margin: 1rem 1rem 1rem 3.5rem;
+  /*counter-increment: list-counter;*/
+  list-style: none;
+  padding: .5rem;
+  margin: .5rem .5rem .5rem 1.5rem;
   border: 1px solid #521751;
   position: relative;
 }
 
+li a{
+  color: #521751 !important;
+  text-decoration: underline !important;
+  display: block;
+}
+
+/*
 li:before {
   content: counter(list-counter);
   margin-right: 0.5rem;
-  padding: 1rem;
+  padding: .5rem;
   background: #521751;
   color: white;
   position: absolute;
@@ -44,18 +52,22 @@ li:before {
   top: -1px;
   border: 1px solid #521751;
 }
+*/
 
-li:hover,
-li:active {
+li:hover, li:active {
   border-color: #fa923f;
-  color: white;
+  color: white !important;
   background: #fa923f;
+}
+
+li a:hover, li a:active,  li:hover a, li:active a{
+  color: white !important;
 }
 
 li:hover code,
 li:active code {
-  color: white;
-  background-color: blue;
+  color: white !important;
+  background-color: blue !important;
 }
 
 .bold {
