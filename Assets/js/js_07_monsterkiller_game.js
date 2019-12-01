@@ -196,7 +196,43 @@ function onHealPlayer(){
 
 //write log
 function onPrintLog(){
-    console.log(log);
+    //use a for loop to print the results
+    //console.log(log);
+    //normal for loop
+    /*
+    for(let i=0; i<log.length; i++){
+        console.log(log[i]);
+        console.log('--------------------------');
+    }
+    */
+    //for-of loop with for-in
+    let i = 1;
+    for(const el of log){
+        console.log(`#${i} Log...`);
+        //since we have an object in the loop, we can use forn in here
+        for(const key in el){
+            console.log(`${key} : ${el[key]}`);
+        }
+        i++;
+    }
+    //while loop
+    /*
+    let j = 0;
+    while(j < log.length){
+        console.log(log[i]);
+        console.log('--------------------------');
+        j += 1;
+    }
+    */
+    //do while loop
+    /*
+    let j = 0;
+    do{
+        console.log(log[i]);
+        console.log('--------------------------');
+        j += 1;
+    } while(j < log.length);
+    */
 }
 
 //button handlers, since we haven't yet learned how to pass the param to a function, using a param less function at this time

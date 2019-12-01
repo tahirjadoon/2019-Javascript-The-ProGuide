@@ -268,8 +268,44 @@
           
           //write log<br/>
           function onPrintLog(){<br/>
-            &emsp;console.log(log);<br/>
-          }<br/><br/>
+            &emsp;//use a for loop to print the results<br/>
+            &emsp;//console.log(log);<br/>
+            &emsp;//normal for loop<br/>
+            &emsp;/*<br/>
+            &emsp;for(let i=0; i<log.length; i++){<br/>
+              &emsp;&emsp;console.log(log[i]);<br/>
+              &emsp;&emsp;console.log('--------------------------');<br/>
+                &emsp;}<br/>
+                &emsp;*/<br/>
+                &emsp;//for-of loop with for-in<br/>
+                &emsp;let i = 1;<br/>
+                &emsp;for(const el of log){<br/>
+                  &emsp;&emsp;console.log(`#${i} Log...`);<br/>
+                  &emsp;&emsp;//since we have an object in the loop, we can use forn in here<br/>
+                  &emsp;&emsp;for(const key in el){<br/>
+                  &emsp;&emsp;&emsp;console.log(`${key} : ${el[key]}`);<br/>
+                  &emsp;&emsp;}<br/>
+                  &emsp;&emsp;i++;<br/>
+                &emsp;}<br/>
+                &emsp;//while loop<br/>
+                &emsp;/*<br/>
+                &emsp;let j = 0;<br/>
+                &emsp;while(j < log.length){<br/>
+                  &emsp;&emsp;console.log(log[i]);<br/>
+                  &emsp;&emsp;console.log('--------------------------');<br/>
+                  &emsp;&emsp;j += 1;<br/>
+                &emsp;}<br/>
+                &emsp;*/<br/>
+                &emsp;//do while loop<br/>
+                &emsp;/*<br/>
+                &emsp;let j = 0;<br/>
+                &emsp;do{<br/>
+                  &emsp;&emsp;console.log(log[i]);<br/>
+                  &emsp;&emsp;console.log('--------------------------');<br/>
+                j += 1;<br/>
+                &emsp;} while(j < log.length);<br/>
+                &emsp;*/<br/>
+        }<br/><br/>
           
           //button handlers, since we haven't yet learned how to pass the param to a function, using a param less function at this time<br/>
           attackBtn.addEventListener('click', onAttack);<br/>
