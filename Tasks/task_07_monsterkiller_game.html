@@ -95,12 +95,25 @@
           };<br/><br/>
           
           //get the user input<br/>
-          const enteredtValue = prompt('Maximum life', '100');<br/><br/>
-          
-          //right click on the purple bar and inspect element to see the values changing<br/>
-          let chosenMaxLife = +enteredtValue;<br/>
-          if(isNaN(chosenMaxLife) || chosenMaxLife <= 0){<br/>
-            &emsp;chosenMaxLife = 100;<br/>
+          function getMaxLife(){<br/>
+            &emsp;const enteredtValue = prompt('Maximum life', '100');<br/>
+            &emsp;let parsedValue = +enteredtValue; //can use parseInt or just +<br/>
+            &emsp;if(isNaN(parsedValue) || parsedValue <= 0){<br/>
+              &emsp; &emsp;//parsedValue = 100; //rather than settiing to a valid value will be using try/catch so throw error<br/>
+              &emsp; &emsp;throw {message: 'Invalid user input!'};<br/>
+              &emsp;}<br/>
+              &emsp;return parsedValue;<br/>
+          }<br/><br/>
+
+          //since this is crucial code, wrap it in try/catch block<br/>
+          let chosenMaxLife;<br/>
+          try{<br/>
+            &emsp;chosenMaxLife = getMaxLife();<br/>
+          }<br/>
+          catch(e){<br/>
+            &emsp; &emsp;console.log(e);<br/>
+            &emsp; &emsp;alert(e.message + '\r\nA default of 100 has been used');<br/>
+            &emsp; &emsp;chosenMaxLife = 100;<br/>
           }<br/><br/>
           
           let currentMonsterHealth = chosenMaxLife;<br/>

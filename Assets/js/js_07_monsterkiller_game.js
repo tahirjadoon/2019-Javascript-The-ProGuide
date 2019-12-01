@@ -23,14 +23,27 @@ const app = {
 };
 
 //get the user input
-const enteredtValue = prompt('Maximum life', '100');
-
-//right click on the purple bar and inspect element to see the values changing
-let chosenMaxLife = +enteredtValue;
-if(isNaN(chosenMaxLife) || chosenMaxLife <= 0){
-    chosenMaxLife = 100;
+function getMaxLife(){
+    const enteredtValue = prompt('Maximum life', '100');
+    let parsedValue = +enteredtValue; //can use parseInt or just +
+    if(isNaN(parsedValue) || parsedValue <= 0){
+        //parsedValue = 100; //rather than settiing to a valid value will be using try/catch so throw error
+        throw {message: 'Invalid user input!'};
+    }
+    return parsedValue;
 }
 
+//since this is crucial code, wrap it in try/catch block
+let chosenMaxLife;
+try{
+    chosenMaxLife = getMaxLife();
+}
+catch(e){
+    console.log(e);
+    alert(e.message + '\r\nA default of 100 has been used');
+    chosenMaxLife = 100;
+}
+ 
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
 let hasBonusLife = true;
