@@ -1,56 +1,206 @@
-/*************************************************************/
-/**** Write custom code here                              ****/
-/*************************************************************/
+/**********************************************************************/
+/**** This JS is dependent upon the js_07_monsterkiller_startup.js ****/
+/**********************************************************************/
 
+//use the object for the global values and for using the enums for checking the mode
+const app = {
+    ATTACK_VALUE: 10,
+    STRONG_ATTACK_VALUE: 17,
+    MONSTER_ATTACK_VALUE: 14,
+    HEAL_VALUE: 20,
+    MODE_ENUM: {
+        ATTACK: 0,
+        STRONG_ATTACK: 1
+    },
+    LOG_EVENT_ENUM: {
+        PLAYER_ATTACK: 'PLAYER_ATTACK',
+        PLAYER_STRONG_ATTACK: 'PLAYER_STRONG_ATTACK',
+        MONSTER_ATTACK: 'MONSTER_ATTACK',
+        MONSTER_STRONG_ATTACK: 'MONSTER_STRONG_ATTACK',
+        PLAYER_HEAL: 'PLAYER_HEAL',
+        GAME_OVER: 'GAME_OVER'
+    }
+};
 
+//get the user input
+const enteredtValue = prompt('Maximum life', '100');
 
-
-
-/*************************************************************/
-/**** Do not change any thig below                        ****/
-/**** BSICS Keep as is, this will be covered in detail later */
-/*************************************************************/
-const monsterHealthBar = document.getElementById('monster-health');
-const playerHealthBar = document.getElementById('player-health');
-const bonusLifeEl = document.getElementById('bonus-life');
-
-const attackBtn = document.getElementById('attack-btn');
-const strongAttackBtn = document.getElementById('strong-attack-btn');
-const healBtn = document.getElementById('heal-btn');
-const logBtn = document.getElementById('log-btn');
-
-function adjustHealthBars(maxLife) {
-  monsterHealthBar.max = maxLife;
-  monsterHealthBar.value = maxLife;
-  playerHealthBar.max = maxLife;
-  playerHealthBar.value = maxLife;
+//right click on the purple bar and inspect element to see the values changing
+let chosenMaxLife = +enteredtValue;
+if(isNaN(chosenMaxLife) || chosenMaxLife <= 0){
+    chosenMaxLife = 100;
 }
 
-function dealMonsterDamage(damage) {
-  const dealtDamage = Math.random() * damage;
-  monsterHealthBar.value = +monsterHealthBar.value - dealtDamage;
-  return dealtDamage;
+let currentMonsterHealth = chosenMaxLife;
+let currentPlayerHealth = chosenMaxLife;
+let hasBonusLife = true;
+let initialPlayerHealth;
+
+//for logging
+let log = [];
+
+//reset the bars
+adjustHealthBars(chosenMaxLife);
+
+//functions to keep the code dry
+
+function writeToLog(event, value, monsterHealth, playerHealth){
+    //build the object
+    let logEntry = {
+        event: event,
+        value: value,
+        target: '', //will fill the target below
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+
+    //using a switch rather than if else and doing practive so not keeping it dry for a reason
+    switch(event){
+        case app.LOG_EVENT_ENUM.PLAYER_ATTACK:
+            logEntry.target = "MONSTER";
+            break;
+        case app.LOG_EVENT_ENUM.PLAYER_STRONG_ATTACK:
+            logEntry.target = "MONSTER";
+            break;
+        case app.LOG_EVENT_ENUM.MONSTER_ATTACK:
+            logEntry.target = "PLAYER";
+            break;
+        case app.LOG_EVENT_ENUM.MONSTER_STRONG_ATTACK:
+            logEntry.target = "PLAYER";
+            break;
+        case app.LOG_EVENT_ENUM.PLAYER_HEAL:
+            logEntry.target = "PLAYER";
+            break;
+        case app.LOG_EVENT_ENUM.GAME_OVER:
+            logEntry.target = "";
+            break;
+        default:
+            return; //dont push
+    }
+    //push to array
+    log.push(logEntry);
 }
 
-function dealPlayerDamage(damage) {
-  const dealtDamage = Math.random() * damage;
-  playerHealthBar.value = +playerHealthBar.value - dealtDamage;
-  return dealtDamage;
+function reset(){
+    //do not use let here since these are global variables
+    currentMonsterHealth = chosenMaxLife;
+    currentPlayerHealth = chosenMaxLife;
+    //ceset game
+    resetGame(chosenMaxLife);
 }
 
-function increasePlayerHealth(healValue) {
-  playerHealthBar.value = +playerHealthBar.value + healValue;
+function isWon(){
+    //resetting bonus life
+    if (hasBonusLife && currentPlayerHealth <= 0){
+        //turn of the flag
+        hasBonusLife = false;
+        //update the UI
+        removeBonusLife();
+        //set the current player health to initial player health
+        if(initialPlayerHealth)
+            currentPlayerHealth = initialPlayerHealth;
+        //reset player health
+        setPlayerHealth(currentPlayerHealth);
+        alert('You would be dead but the bonus life save you!')
+    }
+
+    if(currentMonsterHealth <= 0 && currentPlayerHealth > 0){
+        alert("You won!");
+        writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Player Won', currentMonsterHealth, currentPlayerHealth);
+        reset();//reset game
+        return true;
+    }
+    else if(currentPlayerHealth <= 0 && currentMonsterHealth > 0){
+        alert("You lost!");
+        writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Monster Won', currentMonsterHealth, currentPlayerHealth);
+        reset();//reset game
+        return true;
+    }
+    else if(currentPlayerHealth <= 0 && currentMonsterHealth <= 0){
+        alert("You have a draw!");
+        writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Draw', currentMonsterHealth, currentPlayerHealth);
+        reset();//reset game
+        return true;
+    }
+    return false;
 }
 
-function resetGame(value) {
-  playerHealthBar.value = value;
-  monsterHealthBar.value = value;
+function attackMonster(mode){
+    //using a single line if statement, it is called Ternary Conditional statement
+    //after the ? is the true value and after : is the false value
+    const maxDamage = mode === app.MODE_ENUM.ATTACK ? app.ATTACK_VALUE : app.STRONG_ATTACK_VALUE;
+
+    //attack the monster, it will return a random number
+    const damage = dealMonsterDamage(maxDamage);
+    //reduce the currentMonsterHealth by the damage value
+    currentMonsterHealth -= damage;
+    //srite to log
+    const attack = mode === app.MODE_ENUM.ATTACK ? app.LOG_EVENT_ENUM.PLAYER_ATTACK : app.LOG_EVENT_ENUM.PLAYER_STRONG_ATTACK;
+    writeToLog(attack, damage, currentMonsterHealth, currentPlayerHealth);
 }
 
-function removeBonusLife() {
-  bonusLifeEl.parentNode.removeChild(bonusLifeEl);
+function attackPlayer(){
+    initialPlayerHealth = currentPlayerHealth;
+    //monster needs to attack the player as well
+    const playerDamage = dealPlayerDamage(app.MONSTER_ATTACK_VALUE);
+    currentPlayerHealth -= playerDamage;
+    //write to log
+    writeToLog(app.LOG_EVENT_ENUM.MONSTER_ATTACK, playerDamage, currentMonsterHealth, currentPlayerHealth);
 }
 
-function setPlayerHealth(health) {
-  playerHealthBar.value = health;
+function doAttack(mode){
+
+    if(isWon()) return;
+
+    //attack monster
+    attackMonster(mode);
+
+    if(isWon()) return;
+
+    //attack player
+    attackPlayer();
+
+    isWon();
 }
+
+//Attack function
+function onAttack(){
+    doAttack(app.MODE_ENUM.ATTACK);
+}
+
+//Strong attack function
+function onStrongAttack(){
+    doAttack(app.MODE_ENUM.STRONG_ATTACK);
+}
+
+//heal player handler
+function onHealPlayer(){
+    //initially apply the full HEAL_VALUE but then check overwrite
+    let healValue = app.HEAL_VALUE;
+    if(currentPlayerHealth >= chosenMaxLife - app.HEAL_VALUE){
+        alert("You can't heal more than initial value!");
+        //heal the player back up to initial health
+        healValue = chosenMaxLife - currentPlayerHealth;
+    }
+    
+    increasePlayerHealth(healValue);
+    currentPlayerHealth += healValue;
+    //write log
+    writeToLog(app.LOG_EVENT_ENUM.PLAYER_HEAL, healValue, currentMonsterHealth, currentPlayerHealth);
+
+    //attack the player
+    attackPlayer();
+
+    isWon();
+}
+
+//write log
+function onPrintLog(){
+    console.log(log);
+}
+
+//button handlers, since we haven't yet learned how to pass the param to a function, using a param less function at this time
+attackBtn.addEventListener('click', onAttack);
+strongAttackBtn.addEventListener('click', onStrongAttack);
+healBtn.addEventListener('click', onHealPlayer);
+logBtn.addEventListener('click', onPrintLog);

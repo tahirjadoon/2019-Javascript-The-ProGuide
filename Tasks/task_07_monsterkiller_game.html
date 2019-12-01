@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Task 07 - Monster Killer</title>
     <link rel="stylesheet" href="../Assets/css/monsterkiller_game.css" />
+
+    <script src="../Assets/js/js_07_monsterkiller_startup.js" defer></script>
     <script src="../Assets/js/js_07_monsterkiller_game.js" defer></script>
   </head>
   <body>
@@ -25,6 +27,7 @@
 
     <section id="content">
       <h1>Monster Killer Game</h1>
+      <p>This game follows all that we have learned so far Task 01-06.</p>
 
       <h2>Resources</h2>
       <p>
@@ -32,13 +35,248 @@
         <a href="../Assets/js/js_07_monsterkiller_game.js">/Assets/js/js_07_monsterkiller_game.js</a>
       </p>
       <p>
-        JavaScript file has two sections. Only work under the top <code>Write custom code here</code>.
+        There are two JavaScript files. Only work under the <code>_game.js</code> file.
       </p>
       <p>
-        The bottom <code>Do not change any thig below</code> we haven't covered
-        yet so use as is. You can still go ahead and try to understand and do
-        online research, the best way to learn any thing new.
+        The <code>_startup.js</code> we haven't covered yet so use as is. You can still go ahead and try to understand and do online research, the best way to learn new stuff.            
       </p>
+      <p>
+        This task uses<br/>
+        - Ternary operator: It is a single line if statement, check 
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" target="_blank">
+          https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator</a> for more details.<br/>
+        - JavaScript popup boxes: using prompt and alert, Check this 
+        <a href="https://www.w3schools.com/js/js_popup.asp" target="_blank">https://www.w3schools.com/js/js_popup.asp</a>.
+      </p>
+      <h2>Tasks</h2>
+      <ol>
+          <li>Keep DRY principle in mind. Use functions for repeating code.</li>
+          <li>Set AttackValue (normal and strong) for both Monster and Player. This will be used as a max value and a random value be generated between 0 and 
+              this value by the <code>_statrtup.js</code>. Since this is a global value which will never change, use all 
+            upper case letters as ATTACK_VALUE, STRONG_ATTACK_VALUE and MONSTER_ATTACK_VALUE</li>
+          <li>chosenMaxLife value as 100, this will be coming from the user.</li>
+          <li>Create two variables to keep track of monster and player health. The inital value will be chosenMaxLife.</li>
+          <li>When the page will load the bars will be 100%. Call the adjustHealthBars function and pass the chosenMaxLife value</li>
+          <li>Write functions to display win and loss and to do the attach which will be called by the Attack and Strong Attack buttons.</li>
+          <li>Create a button handler for the Attack button and write a function to perform monster attack and player attack actions.<br /></li>
+          <li>Create a button handler for the Strong Attack button and write a functions to perform strong monster and player attack actions.</li>
+          <li>Create a button handler for heal and write a functin to perform actions. Also create a global HEAL_VALUE. After the heal, let the monster hit the player.</li>
+          <li>Create a button handler for the show log and write a function to display the log.</li>
+          <li>Handle the bonus life, only one life per game.</li>
+          <li>Reset the game once it is over</li>
+          <li>Log every thing for player attack, monster attack, strong attack, player heal and when the game finishes.</li>
+          <li>Finally display the log</li>
+      </ol>
+      <h2>Solution</h2>
+      <p>Follow the comments to read through the code</p>
+      <code>
+          /**********************************************************************/<br/>
+          /**** This JS is dependent upon the js_07_monsterkiller_startup.js ****/<br/>
+          /**********************************************************************/<br/><br/>
+          
+          //use the object for the global values and for using the enums for checking the mode<br/>
+          const app = {<br/>
+              &emsp;ATTACK_VALUE: 10,<br/>
+              &emsp;STRONG_ATTACK_VALUE: 17,<br/>
+              &emsp;MONSTER_ATTACK_VALUE: 14,<br/>
+              &emsp;HEAL_VALUE: 20,<br/>
+              &emsp;MODE_ENUM: {<br/>
+                &emsp;&emsp;ATTACK: 0,<br/>
+                &emsp;&emsp;STRONG_ATTACK: 1<br/>
+                &emsp;},<br/>
+                &emsp;LOG_EVENT_ENUM: {<br/>
+                  &emsp;&emsp;PLAYER_ATTACK: 'PLAYER_ATTACK',<br/>
+                  &emsp;&emsp;PLAYER_STRONG_ATTACK: 'PLAYER_STRONG_ATTACK',<br/>
+                  &emsp;&emsp;MONSTER_ATTACK: 'MONSTER_ATTACK',<br/>
+                  &emsp;&emsp;MONSTER_STRONG_ATTACK: 'MONSTER_STRONG_ATTACK',<br/>
+                  &emsp;&emsp;PLAYER_HEAL: 'PLAYER_HEAL',<br/>
+                  &emsp;&emsp;GAME_OVER: 'GAME_OVER'<br/>
+                  &emsp;}<br/>
+          };<br/><br/>
+          
+          //get the user input<br/>
+          const enteredtValue = prompt('Maximum life', '100');<br/><br/>
+          
+          //right click on the purple bar and inspect element to see the values changing<br/>
+          let chosenMaxLife = +enteredtValue;<br/>
+          if(isNaN(chosenMaxLife) || chosenMaxLife <= 0){<br/>
+            &emsp;chosenMaxLife = 100;<br/>
+          }<br/><br/>
+          
+          let currentMonsterHealth = chosenMaxLife;<br/>
+          let currentPlayerHealth = chosenMaxLife;<br/>
+          let hasBonusLife = true;<br/>
+          let initialPlayerHealth;<br/><br/>
+          
+          //for logging<br/>
+          let log = [];<br/><br/>
+          
+          //reset the bars<br/>
+          adjustHealthBars(chosenMaxLife);<br/><br/>
+          
+          //functions to keep the code dry<br/><br/>
+          
+          function writeToLog(event, value, monsterHealth, playerHealth){<br/>
+            &emsp;//build the object<br/>
+            &emsp;let logEntry = {<br/>
+              &emsp;&emsp;event: event,<br/>
+              &emsp;&emsp;value: value,<br/>
+              &emsp;&emsp;target: '', //will fill the target below<br/>
+              &emsp;&emsp;finalMonsterHealth: monsterHealth,<br/>
+              &emsp;&emsp;finalPlayerHealth: playerHealth<br/>
+              &emsp;};<br/><br/>
+          
+              &emsp;//using a switch rather than if else and doing practive so not keeping it dry for a reason<br/>
+              &emsp;switch(event){<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.PLAYER_ATTACK:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "MONSTER";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.PLAYER_STRONG_ATTACK:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "MONSTER";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.MONSTER_ATTACK:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "PLAYER";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.MONSTER_STRONG_ATTACK:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "PLAYER";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.PLAYER_HEAL:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "PLAYER";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;case app.LOG_EVENT_ENUM.GAME_OVER:<br/>
+                &emsp;&emsp;&emsp;logEntry.target = "";<br/>
+                &emsp;&emsp;&emsp;break;<br/>
+                &emsp;&emsp;default:<br/>
+                &emsp;&emsp;&emsp;return; //dont push<br/>
+                &emsp;}<br/>
+                &emsp;//push to array<br/>
+                &emsp;log.push(logEntry);<br/>
+          }<br/><br/>
+          
+          function reset(){<br/>
+            &emsp;//do not use let here since these are global variables<br/>
+            &emsp;currentMonsterHealth = chosenMaxLife;<br/>
+            &emsp;currentPlayerHealth = chosenMaxLife;<br/>
+            &emsp;//ceset game<br/>
+            &emsp;resetGame(chosenMaxLife);<br/>
+          }<br/><br/>
+          
+          function isWon(){<br/>
+            &emsp;//resetting bonus life<br/>
+            &emsp;if (hasBonusLife && currentPlayerHealth <= 0){<br/>
+              &emsp;&emsp;//turn of the flag<br/>
+              &emsp;&emsp;hasBonusLife = false;<br/>
+              &emsp;&emsp;//update the UI<br/>
+              &emsp;&emsp;removeBonusLife();<br/>
+              &emsp;&emsp;//set the current player health to initial player health<br/>
+              &emsp;&emsp;if(initialPlayerHealth)<br/>
+              &emsp;&emsp;&emsp;currentPlayerHealth = initialPlayerHealth;<br/>
+              &emsp;&emsp;//reset player health<br/>
+              &emsp;&emsp;setPlayerHealth(currentPlayerHealth);<br/>
+              &emsp;&emsp;alert('You would be dead but the bonus life save you!')<br/>
+              &emsp;}<br/><br/>
+          
+              &emsp;if(currentMonsterHealth <= 0 && currentPlayerHealth > 0){<br/>
+                &emsp;&emsp;alert("You won!");<br/>
+                &emsp;&emsp;writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Player Won', currentMonsterHealth, currentPlayerHealth);<br/>
+                &emsp;&emsp;reset();//reset game<br/>
+                &emsp;&emsp;return true;<br/>
+                &emsp;}<br/>
+                &emsp;else if(currentPlayerHealth <= 0 && currentMonsterHealth > 0){<br/>
+                  &emsp;&emsp;alert("You lost!");<br/>
+                  &emsp;&emsp;writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Monster Won', currentMonsterHealth, currentPlayerHealth);<br/>
+                  &emsp;&emsp;reset();//reset game<br/>
+                  &emsp;&emsp;return true;<br/>
+                  &emsp;}<br/>
+                  &emsp;else if(currentPlayerHealth <= 0 && currentMonsterHealth <= 0){<br/>
+                    &emsp;&emsp;alert("You have a draw!");<br/>
+                    &emsp;&emsp;writeToLog(app.LOG_EVENT_ENUM.GAME_OVER, 'Draw', currentMonsterHealth, currentPlayerHealth);<br/>
+                    &emsp;&emsp;reset();//reset game<br/>
+                    &emsp;&emsp;return true;<br/>
+                    &emsp;}<br/>
+                    &emsp;return false;<br/>
+          }<br/><br/>
+          
+          function attackMonster(mode){<br/>
+            &emsp;//using a single line if statement, it is called Ternary Conditional statement<br/>
+            &emsp;//after the ? is the true value and after : is the false value<br/>
+            &emsp;const maxDamage = mode === app.MODE_ENUM.ATTACK ? app.ATTACK_VALUE : app.STRONG_ATTACK_VALUE;<br/><br/>
+          
+            &emsp;//attack the monster, it will return a random number<br/>
+            &emsp;const damage = dealMonsterDamage(maxDamage);<br/>
+            &emsp;//reduce the currentMonsterHealth by the damage value<br/>
+            &emsp;currentMonsterHealth -= damage;<br/>
+            &emsp;//srite to log<br/>
+            &emsp;const attack = mode === app.MODE_ENUM.ATTACK ? app.LOG_EVENT_ENUM.PLAYER_ATTACK : app.LOG_EVENT_ENUM.PLAYER_STRONG_ATTACK;<br/>
+            &emsp;writeToLog(attack, damage, currentMonsterHealth, currentPlayerHealth);<br/><br/>
+          }<br/><br/>
+          
+          function attackPlayer(){<br/>
+            &emsp;initialPlayerHealth = currentPlayerHealth;<br/>
+            &emsp;//monster needs to attack the player as well<br/>
+            &emsp;const playerDamage = dealPlayerDamage(app.MONSTER_ATTACK_VALUE);<br/>
+            &emsp;currentPlayerHealth -= playerDamage;<br/>
+            &emsp;//write to log<br/>
+            &emsp;writeToLog(app.LOG_EVENT_ENUM.MONSTER_ATTACK, playerDamage, currentMonsterHealth, currentPlayerHealth);<br/>
+          }<br/><br/>
+          
+          function doAttack(mode){<br/><br/>
+          
+            &emsp;if(isWon()) return;<br/><br/>
+          
+            &emsp;//attack monster<br/>
+            &emsp;attackMonster(mode);<br/><br/>
+          
+            &emsp;if(isWon()) return;<br/><br/>
+          
+            &emsp;//attack player<br/>
+            &emsp;attackPlayer();<br/><br/>
+          
+            &emsp;isWon();<br/>
+          }<br/><br/>
+          
+          //Attack function<br/>
+          function onAttack(){<br/>
+            &emsp;doAttack(app.MODE_ENUM.ATTACK);<br/>
+          }<br/><br/>
+          
+          //Strong attack function<br/>
+          function onStrongAttack(){<br/>
+            &emsp;doAttack(app.MODE_ENUM.STRONG_ATTACK);<br/>
+          }<br/><br/>
+          
+          //heal player handler<br/>
+          function onHealPlayer(){<br/>
+            &emsp;//initially apply the full HEAL_VALUE but then check overwrite<br/>
+            &emsp;let healValue = app.HEAL_VALUE;<br/>
+            &emsp;if(currentPlayerHealth >= chosenMaxLife - app.HEAL_VALUE){<br/>
+              &emsp;&emsp;alert("You can't heal more than initial value!");<br/>
+              &emsp;&emsp;//heal the player back up to initial health<br/>
+              &emsp;&emsp;healValue = chosenMaxLife - currentPlayerHealth;<br/>
+              &emsp;}<br/><br/>
+              
+              &emsp;increasePlayerHealth(healValue);<br/>
+              &emsp;currentPlayerHealth += healValue;<br/>
+              &emsp;//write log<br/>
+              &emsp;writeToLog(app.LOG_EVENT_ENUM.PLAYER_HEAL, healValue, currentMonsterHealth, currentPlayerHealth);<br/><br/>
+          
+              &emsp;//attack the player<br/>
+              &emsp;attackPlayer();<br/><br/>
+          
+              &emsp;isWon();<br/>
+          }<br/><br/>
+          
+          //write log<br/>
+          function onPrintLog(){<br/>
+            &emsp;console.log(log);<br/>
+          }<br/><br/>
+          
+          //button handlers, since we haven't yet learned how to pass the param to a function, using a param less function at this time<br/>
+          attackBtn.addEventListener('click', onAttack);<br/>
+          strongAttackBtn.addEventListener('click', onStrongAttack);<br/>
+          healBtn.addEventListener('click', onHealPlayer);<br/>
+          logBtn.addEventListener('click', onPrintLog);
+      </code>
     </section>
   </body>
 </html>
