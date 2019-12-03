@@ -33,3 +33,26 @@ function concatString(param1, param2, param3){
 //calling the concatString function
 var newString = concatString("John", "Smith", "Dad");
 alert(newString);
+
+//#6
+//function expression which is also an: Anonymous function
+function myFunction(a, b) {
+    return a * b;
+  }
+console.log("Function Expression result for #6: " + myFunction(2, 3));
+
+//#7
+//Self-Invoking function which is also an: Anonymous function. 
+(function () {
+    console.log('#7 Self-InvokingFunction: I have invoked myself!');
+})();
+
+//#8 
+//Arrow functions  
+//ES6 arrow function, incase of a single statement, no return is needed
+const es6_1 = (x, y) => x * y;
+//arrow function with a return 
+const es6_2 = (x, y) => { return x * y };
+console.log("Arrow function #8: " + es6_1(2,4));
+console.log("Arrow function #8: " + es6_2(2,5));
+
