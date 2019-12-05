@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 09 Simple Calculator - Using Bind()</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <script src="../Assets/js/js_09_simple_calculator_using_bind.js" defer></script>
+  </head>
+
+  <body>
+    <h1>Task 09 Simple Calculator - Using Bind()</h1>
+    <p>This example is built on <a href="task_05_simple_calculator_object_log.html" target="_blank">task 5</a> code and will introduce Bind() with switch statement. </p>
+    <p>Also, there is <a href="task_06_simple_calculator_conditional_if.html" target="_blank">task 6</a> which modified task 5 with objects and more generic function calls</p>
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Move the JS reference to head section and use defer to load it. 
+      </li>
+      <li>
+        Create a single operations functions instead of Add/Multiply/Subtract/Divide. Pass the operation to perform via Bind() when creating the event listener. 
+      </li>
+    </ul>
+
+    <h2>The Simple Calculator</h2>
+    <section id="calculator">
+      <input type="number" id="input-number" autofocus />
+      <div id="calc-actions">
+        <button type="button" id="btn-add">+</button>
+        <button type="button" id="btn-subtract">-</button>
+        <button type="button" id="btn-multiply">*</button>
+        <button type="button" id="btn-divide">/</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+
+    <h2>JavaScript Solution</h2>
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_09_simple_calculator_using_bind.js">/Assets/js/js_09_simple_calculator_using_bind.js</a>
+    </p>
+    <p>Open the above JavaScript file and look at mutiple comments that start with <code>Task9</code></p>
+
+    <p>New Changes:<br/>
+      <code>
+          //Task9: object to reuse string, copies from Task6<br/>
+          let mathOperations = {<br/>
+            &emsp;add: "ADD",<br/>
+            &emsp;addOperator: "+",<br/>
+            &emsp;subtract: "SUBTRACT",<br/>
+            &emsp;subtractOperator: "-",<br/>
+            &emsp;multiply: "MULTIPLY",<br/>
+            &emsp;multiplyOperator: "*",<br/>
+            &emsp;divide: "DIVIDE",<br/>
+            &emsp;divideOperator: "/"<br/>
+          }<br/><br/>
+
+          //task9: new calculate function to replace individual add/subtract/multiply/divide function<br/>
+          const calculate = (operation) => {<br/>
+            &emsp;const enteredNumber = getUserNumberInput();<br/>
+            &emsp;const initialResult = currentResult;<br/>
+            &emsp;let operator;<br/>
+            &emsp;switch(operation){<br/>
+              &emsp;&emsp;case mathOperations.add:<br/>
+              &emsp;&emsp;&emsp;currentResult += enteredNumber;<br/>
+              &emsp;&emsp;&emsp;operator = mathOperations.addOperator;<br/>
+              &emsp;&emsp;&emsp;break;<br/>
+              &emsp;&emsp;case mathOperations.subtract:<br/>
+              &emsp;&emsp;&emsp;currentResult -= enteredNumber;<br/>
+              &emsp;&emsp;&emsp;operator = mathOperations.subtractOperator;<br/>
+              &emsp;&emsp;&emsp;break;<br/>
+              &emsp;&emsp;case mathOperations.multiply:<br/>
+              &emsp;&emsp;&emsp;currentResult *= enteredNumber;<br/>
+              &emsp;&emsp;&emsp;operator = mathOperations.multiplyOperator;<br/>
+              &emsp;&emsp;&emsp;break;<br/>
+              &emsp;&emsp;case mathOperations.divide:<br/>
+              &emsp;&emsp;&emsp;currentResult /= enteredNumber;<br/>
+              &emsp;&emsp;&emsp;operator = mathOperations.divideOperator;<br/>
+              &emsp;&emsp;&emsp;break;<br/>
+            &emsp;}<br/>
+            &emsp;createAndWriteOutput(operator, initialResult, enteredNumber);<br/>
+            &emsp;//add the log entry<br/>
+            &emsp;createLogEntry(operation, initialResult, enteredNumber, currentResult);<br/>
+          };<br/><br/>
+
+          //Event listeners on action buttons<br/>
+          //Task9: use the new calculate function as CallBack and bind the operation<br/>
+          addBtn.addEventListener('click', calculate.bind(this, mathOperations.add));<br/>
+          subtractBtn.addEventListener('click', calculate.bind(this, mathOperations.subtract));<br/>
+          multiplyBtn.addEventListener('click', calculate.bind(this, mathOperations.multiply));<br/>
+          divideBtn.addEventListener('click', calculate.bind(this, mathOperations.divide));
+      </code>
+    </p>
+  </body>
+</html>
