@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 08 Rock, Paper, Scissors Game</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <script src="../Assets/js/js_08_rock-paper-scissors_game.js" defer></script>
+  </head>
+
+  <body>
+    <h1>Task 08 Rock, Paper, Scissors Game</h1>
+    <p>
+      <label><input type="radio" name="rdoSelection" value="rock" checked> Rock </label>
+      <label><input type="radio" name="rdoSelection" value="paper"> Paper </label>
+      <label><input type="radio" name="rdoSelection" value="scissors"> Scissors </label>
+    </p>
+    <p><button id="start-game-btn">Start Game!</button></p>
+
+    <h2>JavaScript Solution</h2>
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_08_rock-paper-scissors_game.js">/Assets/js/js_08_rock-paper-scissors_game.js</a>
+    </p>
+    <p>Open the above JavaScript file and look at mutiple comments that start with <code>Task8</code></p>
+
+    <h2>JavaScript Resouces Used</h2>
+    <ul>
+      <li>Math.random ==> Check the Math class for details: <a href="https://www.w3schools.com/js/js_math.asp" target="_blank">https://www.w3schools.com/js/js_math.asp</a></li>
+      <li>toUpperCase() ==> check javaScript string functions: <a href="https://www.w3schools.com/js/js_string_methods.asp" target="_blank">https://www.w3schools.com/js/js_string_methods.asp</a></li>
+      <li>Check JavaScript object methods here: <a href="https://www.w3schools.com/js/js_object_methods.asp" target="_blank">https://www.w3schools.com/js/js_object_methods.asp</a></li>
+      <li>Check this for using GET: <a href="https://stackoverflow.com/questions/59150018/proper-use-of-this-in-javascript-objects?noredirect=1#comment104525531_59150018" target="_blank">https://stackoverflow.com/questions/59150018/proper-use-of-this-in-javascript-objects?noredirect=1#comment104525531_59150018</a></li>
+      <li>Check this for using GET: <a href="https://stackoverflow.com/questions/4616202/self-references-in-object-literals-initializers" target="_blank">https://stackoverflow.com/questions/4616202/self-references-in-object-literals-initializers</a></li>
+    </ul>
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Create three radio buttons for the player choice for ROCK, PAPER and SCISSORS
+      </li>
+      <li>
+        Create a Game Start Button and create an event listener to it in the JS file. 
+      </li>
+      <li>
+        Create an object with ROCK, PAPER, SCISSORS choices and also setup a default choice.
+        <br/>
+        Also, create winner choices in the same object
+      </li>
+      <li>
+          Write a player choice function, use any method that we have learned so far. It will ask the user for a choice and then 
+          in case of invalid selection will select the default choice by alerting the user otherwise will return the choice.  
+      </li>
+      <li>
+        Create an event listener with anonymous function for the game start button, call the above choice function and then console.log the choice. 
+      </li>
+      <li>
+        Open dev tools to view console.log results
+      </li>
+      <li>Write another function which will generate a randon value.<br/> 
+        RandomValue < 0.34 should return ROCK<br />
+        RandomValue < 0.67 should return PAPER<br />
+        For the default return SCISSORS 
+      </li>
+      <li>
+        Write a function to determine a winner. 
+      </li>
+    </ul>
+  </body>
+</html>

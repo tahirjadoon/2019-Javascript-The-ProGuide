@@ -56,3 +56,36 @@ const es6_2 = (x, y) => { return x * y };
 console.log("Arrow function #8: " + es6_1(2,4));
 console.log("Arrow function #8: " + es6_2(2,5));
 
+//default
+const add = (a, b) => {
+    const result = a + b;
+    return result; // like in "normal" functions, parameters and return statement are OPTIONAL!
+};
+console.log(add(2, 3));
+//Noteworthy: Semi-colon at end, no function keyword, parentheses around parameters/ arguments.
+
+//Shorter parameter syntax, if exactly one parameter is received:
+const log = message => {
+    console.log(message); // could also return something of course - this example just doesn't
+};
+log('How are you?')
+//Noteworthy: Parentheses around parameter list can be omitted (for exactly one argument).
+
+//Empty parameter parentheses if NO arguments are received:
+const greet = () => {
+    console.log('Hi there!');
+};
+greet();
+//Noteworthy: Parentheses have to be added (can't be omitted)
+
+//Shorter function body, if exactly one expression is used:
+const add2 = (a, b) => a + b;
+console.log(add2(4, 5));
+//Noteworthy: Curly braces and return statement can be omitted, expression result is always returned automatically
+
+//Function returns an object:
+const loadPerson = pName => ({name: pName });
+const myPerson = loadPerson('John');
+console.log(myPerson.name);
+//Noteworthy: Extra parentheses are required around the object, since the curly braces would otherwise be interpreted as the function body delimiters (and hence a syntax error would be thrown here).
+
