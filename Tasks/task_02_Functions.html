@@ -47,6 +47,18 @@
       <li>
         Arrow functions example
       </li>
+      <li>
+        REST Operator (which is ... and can pass any number of params to the function like an array)
+      </li>
+      <li>
+        Writing a function inside a function
+      </li>
+      <li>
+        Write a CallBack function 
+      </li>
+      <li>
+        Using #10 and #11, pass a message text using Bind()
+      </li>
     </ul>
 
     <h2>Solution</h2>
@@ -55,11 +67,11 @@
             //#1<br/>
             //Two functions with and without params<br/>
             function noParams(){<br/>
-                alert("No params function alert");<br/>
+              &emsp;alert("No params function alert");<br/>
             }<br/><br/>
             
             function withParam(name){<br/>
-                alert("Hi " + name);<br/>
+              &emsp;alert("Hi " + name);<br/>
             }<br/><br/>
             
             //#2<br/>
@@ -78,9 +90,9 @@
             //#4<br/>
             //function that received 3 params and returns a concatenated string<br/>
             function concatString(param1, param2, param3){<br/>
-                return `${param1} ${param2} ${param3}`;<br/>
-                //we can also do this as<br/>
-                return param1 + " " + param2 + " " + param3;<br/>
+              &emsp;return `${param1} ${param2} ${param3}`;<br/>
+              &emsp;//we can also do this as<br/>
+              &emsp;return param1 + " " + param2 + " " + param3;<br/>
             }<br/><br/>
             
             //#5<br/>
@@ -91,14 +103,14 @@
             //#6<br/>
             //function expression which is also an: Anonymous function<br/>
             function myFunction(a, b) {<br/>
-                return a * b;<br/>
-              }<br/>
+              &emsp;return a * b;<br/>
+            }<br/>
             console.log("Function Expression result for #6: " + myFunction(2, 3));<br/><br/>
 
             //#7<br/>
             //Self-Invoking function which is also an: Anonymous function. <br/>
             (function () {<br/>
-                console.log('#7 Self-InvokingFunction: I have invoked myself!');<br/>
+              &emsp;console.log('#7 Self-InvokingFunction: I have invoked myself!');<br/>
             })();<br/><br/>
 
             //#8 <br/>
@@ -108,7 +120,132 @@
             //arrow function with a return <br/>
             const es6_2 = (x, y) => { return x * y };<br/><br/>
             console.log("Arrow function #8: " + es6_1(2,4));<br/>
-            console.log("Arrow function #8: " + es6_2(2,5));
+            console.log("Arrow function #8: " + es6_2(2,5));<br/><br/>
+
+            //default<br/>
+            const add = (a, b) => {<br/>
+              &emsp;const result = a + b;<br/>
+              &emsp;return result; // like in "normal" functions, parameters and return statement are OPTIONAL!<br/>
+            };<br/>
+            console.log(add(2, 3));<br/>
+            //Noteworthy: Semi-colon at end, no function keyword, parentheses around parameters/ arguments.<br/><br/>
+
+            //Shorter parameter syntax, if exactly one parameter is received:<br/>
+            const log = message => {<br/>
+              &emsp;console.log(message); // could also return something of course - this example just doesn't<br/>
+            };<br/>
+            log('How are you?')<br/>
+            //Noteworthy: Parentheses around parameter list can be omitted (for exactly one argument).<br/><br/>
+
+            //Empty parameter parentheses if NO arguments are received:<br/>
+            const greet = () => {<br/>
+              &emsp;console.log('Hi there!');<br/>
+            };<br/>
+            greet();<br/>
+            //Noteworthy: Parentheses have to be added (can't be omitted)<br/><br/>
+
+            //Shorter function body, if exactly one expression is used:<br/>
+            const add2 = (a, b) => a + b;<br/>
+            console.log(add2(4, 5));<br/>
+            //Noteworthy: Curly braces and return statement can be omitted, expression result is always returned automatically<br/><br/>
+
+            //Function returns an object:<br/>
+            const loadPerson = pName => ({name: pName });<br/>
+            const myPerson = loadPerson('John');<br/>
+            console.log(myPerson.name);<br/>
+            //Noteworthy: Extra parentheses are required around the object, since the curly braces would otherwise be interpreted as the function body delimiters (and hence a syntax error would be thrown here).<br/><br/>
+
+            //#9. REST operator, can pass any number of params<br/>
+            const sumUp = (...numbers) => {<br/>
+              &emsp;let sum = 0;<br/>
+              &emsp;for (const num of numbers){<br/>
+                &emsp;&emsp;sum += num;<br/>
+                &emsp;}<br/>
+                &emsp;return sum;<br/>
+            };<br/>
+            console.log(sumUp(1,2,-4,5,9));<br/>
+            console.log(sumUp(4,3,6,7,-4,6,5,-2));<br/><br/>
+
+            //REST operator with function keyword, use arguments keyword<br/>
+            const subtractUp = function(...numbers) {<br/>
+              &emsp;let result = 0;<br/>
+              &emsp;for (const num of arguments){<br/>
+                &emsp;&emsp;result -= num;<br/>
+                &emsp;}<br/>
+                &emsp;return result;<br/>
+            };<br/>
+            console.log(subtractUp(1,2,-4,5,9));<br/>
+            console.log(subtractUp(4,3,6,7,-4,6,5,-2));<br/><br/>
+
+            //#10. Writing a function inside a function<br/>
+            const sumUp2 = (...numbers) => {<br/>
+              &emsp;//validate numbers<br/>
+              &emsp;const validateNumber = num => {<br/>
+                &emsp;&emsp;//if not a number then return 0<br/>
+                &emsp;&emsp;return isNaN(num) ? 0 : +num;<br/>
+                &emsp;};<br/>
+                &emsp;let sum = 0;<br/>
+                &emsp;for (const num of numbers){<br/>
+                  &emsp;&emsp;sum += validateNumber(num);<br/>
+                  &emsp;}<br/>
+                  &emsp;return sum;<br/>
+            };<br/>
+            console.log("Writing a function inside a function #10: "+sumUp2(1,2,-4,5,9, 'B'));<br/>
+            console.log("Writing a function inside a function #10: "+sumUp2(4,3,6,7,-4,6,5,-2, 'A'));<br/><br/>
+
+            //#11. CallBack Function <br/>
+            //result of sum is printed by this function which is a callback function<br/>
+            const myResultHandlerFunction = sum => {<br/>
+              &emsp;console.log("CallBack function #10: " + sum);<br/>
+            };<br/><br/>
+
+            //resultHandler is the callback function<br/>
+            const sumUp3 = (resultHandler, ...numbers) => {<br/>
+              &emsp;//validate numbers<br/>
+              &emsp;const validateNumber = num => {<br/>
+                &emsp;&emsp;//if not a number then return 0<br/>
+                &emsp;&emsp;return isNaN(num) ? 0 : +num;<br/>
+                &emsp;};<br/>
+                &emsp;let sum = 0;<br/>
+                &emsp;for (const num of numbers){<br/>
+                  &emsp;&emsp;sum += validateNumber(num);<br/>
+                  &emsp;}<br/>
+                  &emsp;//call the callback funcion<br/>
+                  &emsp;resultHandler(sum);
+            };<br/>
+            sumUp3(myResultHandlerFunction, 1,2,-4,5,9, 'B');<br/>
+            sumUp3(myResultHandlerFunction, 4,3,6,7,-4,6,5,-2, 'A');<br/><br/>
+
+            //#12. BIND()<br/>
+            //result of sum is printed by this function which is a callback function<br/>
+            //since we are binding the message, it would be the first parameter<br/>
+            const addSubtractShowMessage = (message, result) => {<br/>
+              &emsp;console.log(message.toString()+ result);<br/>
+            };<br/><br/>
+
+            //resultHandler is the callback function<br/>
+            const addSubtract = (resultHandler, operation, ...numbers) => {<br/>
+              &emsp;//validate numbers<br/>
+              &emsp;const validateNumber = num => {<br/>
+                &emsp;&emsp;//if not a number then return 0<br/>
+                &emsp;&emsp;return isNaN(num) ? 0 : +num;<br/>
+              &emsp;};<br/><br/>
+
+              &emsp;let sum = 0;<br/>
+              &emsp;for (const num of numbers){<br/>
+                &emsp;&emsp;if (operation === 'ADD')<br/>
+                &emsp;&emsp;&emsp;sum += validateNumber(num);<br/>
+                &emsp;&emsp;else<br/>
+                &emsp;&emsp;&emsp;sum -= validateNumber(num);<br/>
+              &emsp;}<br/>
+              &emsp;//call the callback funcion, showing message via BIND()<br/>
+              &emsp;resultHandler(sum);<br/>
+            };<br/>
+            //call the operation function with a CallaAck function and Bind the message to display<br/>
+            //here the first argument would be 'this' keyword and second argument would be the message<br/>
+            addSubtract(addSubtractShowMessage.bind(this, 'Result of ADD operation #12: '), 'ADD', 1,2,-4,5,9, 'B');<br/>
+            addSubtract(addSubtractShowMessage.bind(this, 'Result of ADD operation #12: '), 'ADD', 6,2,-4,'C',7,9, 'B');<br/>
+            addSubtract(addSubtractShowMessage.bind(this, 'Result of SUBTRACT operation #12: '), 'SUBTRACT', 4,3,6,7,-4,6,5,-2, 'A');<br/><br/>
 
     </code>
 
