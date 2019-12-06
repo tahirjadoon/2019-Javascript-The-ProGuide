@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 10 Simple Calculator - Using Bind()</title>
+
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <script src="../Assets/js/js_10_simple_calculator_using_bind.js" defer></script>
+  </head>
+
+  <body>
+    <h1>Task 10 Simple Calculator - Using Bind()</h1>
+    <p>This example is built on <a href="task_06_simple_calculator_conditional_if.html" target="_blank">task 6</a> code and will introduce Bind() used with event listeners. </p>
+    <p>Also, there is <a href="task_05_simple_calculator_object_log.html" target="_blank">task 5</a> which got updated to Bind() 
+    via <a href="task_09_simple_calculator_using_bind.html" target="_blank">Task9</a>.
+    </p>
+
+
+    <h2>Task</h2>
+    <ul>
+      <li>
+        Move the JS reference to head section and use defer to load it. 
+      </li>
+      <li>
+        Change the event listeners to directly call <code>calculateResult</code> result by binding the two arguments getting passed by the individual functions. 
+      </li>
+    </ul>
+
+    <h2>The Simple Calculator</h2>
+    <section id="calculator">
+      <input type="number" id="input-number" autofocus />
+      <div id="calc-actions">
+        <button type="button" id="btn-add">+</button>
+        <button type="button" id="btn-subtract">-</button>
+        <button type="button" id="btn-multiply">*</button>
+        <button type="button" id="btn-divide">/</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+
+    <h2>JavaScript Solution</h2>
+    <p>
+      JavaScript file:
+      <a href="../Assets/js/js_06_simple_calculator_conditional_if.js">/Assets/js/js_06_simple_calculator_conditional_if.js</a>
+    </p>
+    <p>Open the above JavaScript file and look at mutiple comments that start with <code>Task6</code></p>
+
+    <p>Take note of use of toLowerCase() in the function. There are a lot of string methods, check the link for more details: <br/>
+      <a href="https://www.w3schools.com/js/js_string_methods.asp" target="_blank">https://www.w3schools.com/js/js_string_methods.asp</a></p>
+
+    <p>The object:<br/>
+      <code>
+          //Task6: create an object so that we can resuse the text values<br/>
+          let mathOperations = {<br/>
+            add: "ADD",<br/>
+            addOperator: "+",<br/>
+            subtract: "SUBTRACT",<br/>
+            subtractOperator: "-",<br/>
+            multiply: "MULTIPLY",<br/>
+            multiplyOperator: "*",<br/>
+            divide: "DIVIDE",<br/>
+            divideOperator: "/"<br/>
+          }
+      </code>
+    </p>
+    
+    <p>The new calculate function<br/>
+      <code>
+          //Task 6: Create a new function to calculate which will use conditional if else statements<br/>
+          //calcType being passed: ADD, SUBTRACT, MULTIPLY and DIVIDE<br/>
+          //calcOperation being passed: +, -, * and /<br/>
+          function calculateResult(calcType, calcOperation){<br/>
+            //check that we have the allowed calctype, if not then exit<br/>
+            calcType = calcType.toLowerCase();<br/>
+            if(calcType !== mathOperations.add.toLowerCase() &&<br/>
+                calcType !== mathOperations.subtract.toLowerCase() &&<br/>
+                calcType !== mathOperations.multiply.toLowerCase() &&<br/>
+                calcType !== mathOperations.divide.toLowerCase()<br/>
+              ){<br/>
+                return; //exit<br/>
+              }<br/>
+            //perform calculation<br/>
+            const enteredNumber = getUserNumberInput();<br/>
+            const initialResult = currentResult;<br/>
+            if(calcType === mathOperations.add.toLowerCase()){<br/>
+              currentResult += enteredNumber;<br/>
+            }<br/>
+            else if(calcType === mathOperations.subtract.toLowerCase()){<br/>
+              currentResult -= enteredNumber;<br/>
+            }<br/>
+            else if(calcType === mathOperations.multiply.toLowerCase()){<br/>
+              currentResult *= enteredNumber;<br/>
+            }<br/>
+            else if(calcType === mathOperations.divide.toLowerCase()){<br/>
+              currentResult /= enteredNumber;<br/>
+            }<br/>
+            createAndWriteOutput(calcOperation, initialResult, enteredNumber);<br/>
+            createLogEntry(calcType.toUpperCase(), initialResult, enteredNumber, currentResult);<br/>
+          }
+      </code>
+    </p>
+
+    <p>Then updated the individual functions<br/>
+      <code>
+          //individual operations<br/>
+          //Task6: remove the code and call the new function with the proper values passed in<br/>
+          function add() {<br/>
+            calculateResult(mathOperations.add, mathOperations.addOperator);<br/>
+          }<br/><br/>
+          
+          function subtract() {<br/>
+            calculateResult(mathOperations.subtract, mathOperations.subtractOperator);<br/>
+          }<br/><br/>
+          
+          function multiply() {<br/>
+            calculateResult(mathOperations.multiply, mathOperations.multiplyOperator);<br/>
+          }<br/><br/>
+          
+          function divide() {<br/>
+            calculateResult(mathOperations.divide, mathOperations.divideOperator);<br/>
+          }
+      </code>
+    </p>
+  </body>
+</html>
