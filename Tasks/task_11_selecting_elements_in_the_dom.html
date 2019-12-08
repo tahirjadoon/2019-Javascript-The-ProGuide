@@ -7,6 +7,14 @@
     <title>DOM Interaction</title>
     <link rel="stylesheet" href="../assets/css/siteSimple.css" />
     <script src="../Assets/js/js_11_selecting_elements_in_the_dom.js" defer></script>
+    <style>
+      .default-textbox {
+        background-color: lightblue;
+      }
+      .change-textbox {
+        background-color: lightcoral;
+      }
+    </style>
   </head>
   <body>
     <header><h1 id="main-title">Dive into the DOM!</h1></header>
@@ -15,7 +23,8 @@
       <li class="list-item">Item 2</li>
       <li class="list-item">Item 3</li>
     </ul>
-    TextBox: <input type="text" value="default text">
+    <p>TextBox1: <input id="text1" type="text" value="default text" class="default-textbox"></p>
+    <p>TextBox2: <input id="text2" type="text" value="default text" class="default-textbox"></p>
 
     <h2>Summary</h2>
     <p>Here's a summary of the various methods you got to reach out to DOM elements (note: you can only query for element nodes).</p>
@@ -29,7 +38,9 @@
     <ul>
       <li>Change the Title text, color and background color</li>
       <li>Append (changed!) with Item 3</li>
-      <li>Query all li elements</li>
+      <li>Query all li elements belonging to ul.task-elements and change the background as well after 5 seconds</li>
+      <li>Manipulate the text boxes, working with .value, .getAttribute and .setAttribute</li>
+      <li>Add remove the css classes applied to the text boxes after 5 seconds</li>
     </ul>
 
     <h2>QUERY METHODS</h2>
@@ -58,6 +69,10 @@
     More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName</a><br/>
     There also is the <code>getElementsByName()</code> method which really isn't used commonly (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByName" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByName</a>).
     <p>
+    
+    <p><code>JsetTimeout(function, milliseconds)</code> and <code>setInterval(function, milliseconds)</code><br/>
+        <a href="https://www.w3schools.com/js/js_timing.asp" target="_blank">JavaScript Timing Events</a>
+    </p>
 
 
     <h2>JavaScript Solution</h2>
@@ -83,9 +98,38 @@
       const listItemElements = document.getElementsByTagName('.task-elements li');<br/><br/>
 
       //iterating through the elements<br/>
-      for (const listItemEl of listItemElementsAll) {<br/>
-        &emsp;console.dir(listItemEl);<br/>
-      }
+      setTimeout(function(){<br/>
+        &emsp;for (const listItemEl of listItemElementsAll) {<br/>
+          &emsp;&emsp;console.dir(listItemEl);<br/>
+          &emsp;&emsp;listItemEl.classList.add("default-textbox");<br/>
+          &emsp;}<br/>
+      }, 5000);<br/><br/>
+
+      //working with the textbox 1<br/>
+      const input1 = document.getElementById("text1");<br/>
+      alert("Original textbox 1: " + input1.value);<br/>
+      input1.value = "JS has changing textbox 1 value";<br/>
+      alert("Changed textbox 1: " + input1.value)<br/><br/>
+
+      //working with the textbox 2<br/>
+      const input2 = document.getElementById("text2");<br/>
+      alert("Original textbox 2 via getAttribute: " + input2.getAttribute("value"));<br/>
+      input2.setAttribute("value", "Changed via setAttribute");<br/>
+      alert("Changed textbox 2 via setAttribute: " + input2.getAttribute("value"));<br/><br/>
+
+      //adding removing the css classes applied to text boxes by executing the code after 5 seconds<br/>
+      //additionaly check that the class is applied or not before remove/add<br/>
+      setTimeout(function(){<br/>
+        &emsp;//on input1, first remove the class and then add a new one<br/>
+        &emsp;if(input1.classList.contains("default-textbox"))<br/>
+        &emsp;&emsp;input1.classList.remove("default-textbox");<br/>
+        &emsp;if(!input1.classList.contains("change-textbox"))<br/>
+        &emsp;&emsp;input1.classList.add("change-textbox");<br/>
+        &emsp;//on textbox2 add the new class without removing the old one <br/>
+        &emsp;if(!input2.classList.contains("change-textbox"))<br/>
+        &emsp;&emsp;input2.classList.add("change-textbox");<br/>
+      }, 5000);<br/>
+
     </code>
 
   </body>
