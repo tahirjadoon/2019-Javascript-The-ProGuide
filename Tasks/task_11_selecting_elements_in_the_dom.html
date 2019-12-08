@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DOM Interaction</title>
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <script src="../Assets/js/js_11_selecting_elements_in_the_dom.js" defer></script>
+  </head>
+  <body>
+    <header><h1 id="main-title">Dive into the DOM!</h1></header>
+    <ul class="task-elements">
+      <li>Item 1</li>
+      <li class="list-item">Item 2</li>
+      <li class="list-item">Item 3</li>
+    </ul>
+    TextBox: <input type="text" value="default text">
+
+    <h2>Summary</h2>
+    <p>Here's a summary of the various methods you got to reach out to DOM elements (note: you can only query for element nodes).</p>
+    <p>Besides the below query methods, you also got these special properties on the document object to select parts of the document:
+      <code>document.body</code> => Selects the <bold>&lt;body&gt;</bold> element node.<br/>
+      <code>document.head</code> => Selects the <bold>&lt;head&gt;</bold> element node.<br/>
+      <code>document.documentElement</code> => Selects the <bold>&lt;html&lg;</bold> element node
+    </p>
+
+    <h2>Tasks</h2>
+    <ul>
+      <li>Change the Title text, color and background color</li>
+      <li>Append (changed!) with Item 3</li>
+      <li>Query all li elements</li>
+    </ul>
+
+    <h2>QUERY METHODS</h2>
+    <p><code>document.querySelector(&lt;CSS selector&gt;);</code><br/>
+    Takes any CSS selector (e.g. '#some-id', '.some-class' or 'div p.some-class') and returns the first (!) matching element in the DOM. Returns null if no matching element could be found.<br/>
+    More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" target="_blank"></a>https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+    </p>
+
+    <p><code>document.getElementById(&lt;ID&gt;);</code><br/>
+    Takes an ID (without #, just the id name) and returns the element that has this id. Since the same ID shouldn't occur more than once on your page, it'll always return exactly that one element. Returns null if no element with the specified ID could be found.<br/>
+    More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById</a>
+    </p>
+
+    <p><code>document.querySelectorAll(&lt;CSS selector&gt;);</code><br/>
+    Takes any CSS selector (e.g. '#some-id', '.some-class' or 'div p.some-class') and returns all matching elements in the DOM as a static (non-live) NodeList. Returns and empty NodeList if no matching element could be found.<br/>
+    More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll</a>
+    </p>
+
+    <p><code>document.getElementsByClassName(&lt;CSS CLASS&gt;);</code><br/>
+    Takes a CSS class g (e.g. 'some-class') and returns a live HTMLCollection of matched elements in your DOM. Returns an empty HTMLCollection if not matching elements were found.<br/>
+    More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName</a>
+    </p>
+
+    <p><code>document.getElementsByTagName(&lt;HTML TAG&gt;);</code><br/>
+    Takes an HTML tag (e.g. 'p') and returns a live HTMLCollection of matched elements in your DOM. Returns an empty HTMLCollection if not matching elements were found.<br/>
+    More information: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName</a><br/>
+    There also is the <code>getElementsByName()</code> method which really isn't used commonly (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByName" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByName</a>).
+    <p>
+
+
+    <h2>JavaScript Solution</h2>
+    <code>
+      //getting the h1 title by ID<br/>
+      const h1 = document.getElementById('main-title');<br/><br/>
+
+      //changing the title and also the text and background colors<br/>
+      h1.textContent = 'Some new title!';<br/>
+      h1.style.color = 'white';<br/>
+      h1.style.backgroundColor = 'black';<br/><br/>
+
+      //change the last li and add (Changed!) to it<br/>
+      const li = document.querySelector('.task-elements li:last-of-type');<br/>
+      li.textContent = li.textContent + ' (Changed!)';<br/><br/>
+
+      //Selects the <body> element node<br/>
+      const body = document.body;<br/><br/>
+
+      //get all li elements using querySelectorAll<br/>
+      const listItemElementsAll = document.querySelectorAll('.task-elements li');<br/>
+      //same as above but getting  via tagName<br/>
+      const listItemElements = document.getElementsByTagName('.task-elements li');<br/><br/>
+
+      //iterating through the elements<br/>
+      for (const listItemEl of listItemElementsAll) {<br/>
+        &emsp;console.dir(listItemEl);<br/>
+      }
+    </code>
+
+  </body>
+</html>
