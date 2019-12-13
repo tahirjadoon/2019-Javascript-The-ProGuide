@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Traversing the Child Nodes</title>
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <script src="../Assets/js/js_12_traversing_dom.js" defer></script>
+    <style>
+      .default-textbox {
+        background-color: lightblue;
+      }
+      .change-textbox {
+        background-color: lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <header><h1>Traversing the Child Nodes</h1></header>
+    <p>This tasks builds on <a href="task_11_selecting_elements_in_the_dom.html" target="_blank">task 11</a>. All task 11 related js code has been removed.</p>
+
+    <ul class="task-elements">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+    <p>TextBox1: <input id="text1" type="text" value="default text" class="default-textbox"></p>
+    <p>TextBox2: <input id="text2" type="text" value="default text" class="default-textbox"></p>
+
+    <h2>Tasks</h2>
+    <ul>
+      <li>Select the second list item ==> select the parent and then look at its child nodes. Rememebr to use <code>children</code> and not <code>childNodes</code> since we only interested in the elements.<br/>
+      Look into with querySelector <code>li:last-of-type</code>, <code>li:first-of-type</code>, <code>ul.firstChild</code>, <code>ul.firstElementChild</code>, 
+      <code>ul.lastChild</code>, <code>ul.lastElementChild</code>
+      </li>
+      <li>Using <code>parentNode</code> and <code>parentElement</code>. Also check <code>closest</code>.</li>
+      <li>Selecting sibling elements, pick one element above which is the sibling of ul. Use <code>previousSiblingElement</code> and not the <code>previousSibling</code></li>
+      <li>Just like previous element, use the <code>nextSiblingElement</code> to pick the nearest element below the selected one.</li>
+    </ul>
+
+    <h2>Resources</h2>
+    <p><a href="https://www.w3schools.com/jsref/prop_element_children.asp" target="_blank">HTML DOM Children Property</a></p>
+    <p><a href="https://www.w3schools.com/jsref/prop_node_parentelement.asp" target="_blank">HTML DOM parentElement Property</a></p>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest" target="_blank">Getting the parent with closest</a></p>
+    <p><a href="https://www.w3schools.com/jsref/prop_element_previouselementsibling.asp" target="_blank">HTML DOM previousElementSibling Property</a></p>
+    <p><a href="https://www.w3schools.com/jsref/prop_element_nextelementsibling.asp" target="_blank">HTML DOM nextElementSibling Property</a></p>
+
+    <h2>JavaScript Solution</h2>
+    <code>
+        //all task 11 related js has been removed<br/><br/>
+
+        //1. select the 2nd list item, we'll be using the childrn which returns an array so will use index 1. <br/>
+        const ul = document.querySelector('ul.task-elements');<br/>
+        const secondLi = ul.children[1];<br/>
+        const ulChildNodes = ul.childNodes;<br/>
+        alert(`Using "children" Second li selected: ${secondLi.textContent} where as \n  <br/>
+        &emsp;&emsp;&emsp;"childNodes" is an array as well but gives us text, tabs, whitespace and new line character as well\n<br/>
+        &emsp;&emsp;&emsp;Do console.log to view more information. Also Look into li:last-of-type, li:first-of-type, <br/>
+        &emsp;&emsp;&emsp;ul.firstChild, ul.firstElementChild, ul.lastChild, ul.lastElementChild`);<br/>
+        console.log(ul);<br/>
+        console.log(secondLi);<br/>
+        console.log(ulChildNodes);<br/>
+        console.log(ul.querySelector('li:last-of-type'));<br/>
+        console.log(ul.querySelector('li:first-of-type'));<br/>
+        console.log(ul.firstChild);<br/>
+        console.log(ul.firstElementChild);<br/>
+        console.log(ul.lastChild);<br/>
+        console.log(ul.lastElementChild);<br/><br/>
+
+        //2. using parentNode and parentElement <br/>
+        const liFirst = ul.querySelector('li');<br/>
+        const parentOfLi = liFirst.parentElement //each element can only have one parent<br/>
+        const parentNodeOfLi = liFirst.parentNode <br/>
+        alert(`Using both parentElement and parentNode. These are the same\n <br/>
+        &emsp;&emsp;&emsp;Check console.log for more information\n<br/>
+        &emsp;&emsp;&emsp; parentElement: ${parentOfLi.textContent}\n<br/>
+        &emsp;&emsp;&emsp;parentNode: ${parentNodeOfLi.textContent}\n<br/>
+        &emsp;&emsp;&emsp;closest: ${liFirst.closest('ul').textContent}`);<br/>
+        console.log(liFirst);<br/>
+        console.log(parentOfLi);<br/>
+        console.log(parentNodeOfLi);<br/>
+        console.log(liFirst.closest('ul'));<br/><br/>
+
+        //3. get the sibling, get one higher element which is the sibling of ul<br/>
+        const psUsingParentOfLi = parentOfLi.previousElementSibling;<br/>
+        const psUsingUl = ul.previousElementSibling; <br/>
+        alert(`Note use of innerHtml in this example:\n<br/>
+        &emsp;&emsp;&emsp;psUsingParentOfLi: ${psUsingParentOfLi.innerHTML}\n<br/>
+        &emsp;&emsp;&emsp;psUsingUl: ${psUsingUl.innerHTML}\n<br/>
+        &emsp;&emsp;&emsp;View console.log for more information. <br/>
+        &emsp;&emsp;&emsp;`);<br/>
+        console.log(psUsingParentOfLi);<br/>
+        console.log(psUsingUl)<br/><br/>
+
+        //4. get the next sibling, get one below element which is the sibling of ul<br/>
+        const nsUsingParentOfLi = parentOfLi.nextElementSibling;<br/>
+        const nsUsingUl = ul.nextElementSibling; <br/>
+        alert(`Note use of innerHtml in this example:\n<br/>
+        &emsp;&emsp;&emsp;nsUsingParentOfLi: ${nsUsingParentOfLi.innerHTML}\n<br/>
+        &emsp;&emsp;&emsp;nsUsingUl: ${nsUsingUl.innerHTML}\n<br/>
+        &emsp;&emsp;&emsp;View console.log for more information. <br/>
+        &emsp;&emsp;&emsp;`);<br/>
+        console.log(nsUsingParentOfLi);<br/>
+        console.log(nsUsingUl)
+
+    </code>
+
+  </body>
+</html>
