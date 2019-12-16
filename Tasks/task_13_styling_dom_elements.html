@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Task 13 - Styling DOM Elements</title>
+    <link rel="stylesheet" href="../assets/css/siteSimple.css" />
+    <style>
+      .red-bg { background-color: red; color: white; }
+      .blue-bg {background-color: blue; color: white; }
+      .visible { display: block; }
+      .invisible { display: none; }
+    </style>
+    <script src="../Assets/js/js_13_styling_dom_elements.js" defer></script>
+  </head>
+  <body>
+    <header><h1>Task 13 - Styling DOM Elements</h1></header>
+
+    <section id="main-section" class="red-bg visible">
+      <ul>
+        <li class="list-item">Item 1</li>
+        <li class="list-item">Item 2</li>
+        <li class="list-item">Item 3</li>
+      </ul>
+    </section>
+    <p><button id="toggleUlLi">Toggle UL/LI Visibility</button> <button id="toggleBg">Toggle background color</button></p>
+
+    <p>Higly recommended to look at the following as well</p>
+    <ul>
+      <li><a href="task_11_selecting_elements_in_the_dom.html" target="_blank">Taks 11 - Selecting elements in the dom</a></li>
+      <li><a href="task_12_traversing_dom.html" target="_blank">Task 12 - Traversing DOM</a></li>
+    </ul>
+
+    <h2>Tasks</h2>
+    <ul>
+      <li>Query the <code>section</code> with the ID of <code>main-section</code>. Then pick the UL using the next sibling and then pick its first element child to pick the li</li>
+      <li>UL list is inside the <code>section</code> with the ID of <code>main-section</code>, apply the <code>red-bg</code> and <code>visible</code> classes to the section as default. </li>
+      <li>Select the <code>section</code> and apply the <code>visible</code> class by default to it.</li>
+      <li>Add an event listener to the button and when it is clicked apply the <code>visible</code> and <code>invisible</code> class. Also look into toggling the invisible class only.</li>
+    </ul>
+
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="https://www.w3schools.com/cssref/pr_class_display.asp" target="_blank">Display Block CSS</a></li>
+      <li><a href="https://www.w3schools.com/howto/howto_js_toggle_class.asp" target="_blank">ClassList Toggle</a></li>
+    </ul>
+
+    <h2>Styles applied via head section</h2>
+    <p>
+      <code>
+      &lt;style&gt;<br/>
+      &emsp;.red-bg { background-color: red; color: white; }<br/>
+      &emsp;.blue-bg {background-color: blue; color: white; }<br/>
+      &emsp;.visible { display: block; }<br/>
+      &emsp;.invisible { display: none; }<br/>
+      &lt;style&gt;
+      </code>
+    </p>
+
+    <h2>JavaScript Solution</h2>
+    <p><a href="../Assets/js/js_13_styling_dom_elements.js" target="_blank">../Assets/js/js_13_styling_dom_elements.js</a></p>
+    <code>
+      const section = document.querySelector('section');<br/>
+      const ul = section.firstElementChild;<br/>
+      const firstLi = ul.firstElementChild;<br/><br/>
+      
+      console.log(section);<br/>
+      console.log(ul);<br/>
+      console.log(firstLi);<br/><br/>
+      
+      // section.style.backgroundColor = 'blue';<br/>
+      section.className = 'red-bg';<br/><br/>
+      
+      const button = document.querySelector('#toggleUlLi');<br/>
+      const buttonBg = document.querySelector('#toggleBg');<br/>
+      button.addEventListener('click', () => {<br/>
+        &emsp;//either using the .className check which classes are applied and then reapply the classes<br/>
+        &emsp;/*<br/>
+        &emsp;if (section.className === 'red-bg visible') {<br/>
+          &emsp;&emsp;section.className = 'red-bg invisible';<br/>
+        &emsp;} else {<br/>
+          &emsp;&emsp;section.className = 'red-bg visible';<br/>
+        &emsp;}<br/>
+        &emsp;*/<br/>
+        &emsp;//or toggle the invisible class<br/>
+        &emsp;section.classList.toggle('invisible');<br/><br/>
+        &emsp;//toggle the bg button as well<br/>
+        &emsp;buttonBg.classList.toggle('invisible');<br/>
+      });<br/><br/>
+
+      buttonBg.addEventListener('click', () => {<br/>
+        &emsp;//toggle the bg color for the section<br/>
+        &emsp;section.classList.toggle('blue-bg');<br/>
+      });  
+    </code>
+
+  </body>
+</html>
